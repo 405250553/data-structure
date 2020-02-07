@@ -75,6 +75,9 @@ void Bubble_sort(int , int *);
 int Partition(int,int,int *);
 void Quick_sort(int,int,int *);
 
+void merge(int,int,int,int *);
+void Merge_sort(int,int,int *);
+
 void adjust(int,int,int *);
 void Heap_sort(int, int*);
 
@@ -287,7 +290,7 @@ int main(void) {
             printf("(b) Selection sort\n");
             printf("(c) Bubble sort\n");
             printf("(d) Quick sort\n");
-            //printf("(e) merge sort\n");
+            printf("(e) merge sort\n");
             printf("(f) heap sort\n");
             scanf(" %c",&s);
             if(s == 'a'){
@@ -304,6 +307,10 @@ int main(void) {
             }
             else if (s == 'd'){
                 Quick_sort(0, n-1, data);
+                PrintArray(n,data); 
+            }
+            else if (s == 'e'){
+                Merge_sort(0, n-1, data);
                 PrintArray(n,data); 
             }
             else if (s == 'f'){
@@ -690,6 +697,65 @@ void Quick_sort(int start, int end, int data[])
         k = Partition(start,end,data);
         Quick_sort(start,k-1,data);
         Quick_sort(k+1,end,data);
+    }
+}
+
+void merge(int start, int mid, int end, int data[])
+{
+    int lenA = mid - start + 1;
+    int lenB = end - (mid+1) + 1;
+    int a[lenA];
+    int b[lenB];
+
+    int i=0,j=0,k=start;
+
+    while(i<lenA){
+        a[i] = data[start+i];
+        i++;
+      }
+
+    while(j<lenB){
+        b[j] = data[mid+1+j];
+        j++;
+      }
+
+    i=j=0;
+
+    while(i<lenA && j<lenB){
+
+        if(a[i]<=b[j]){
+            data[k] = a[i];
+            i++;
+        }
+        else{
+            data[k] = b[j];
+            j++;
+        }
+        k++;
+
+    }
+
+    while(i<lenA){
+        data[k] = a[i];
+        k++;
+        i++;
+    }
+
+    while(j< lenB){
+        data[k] = b[j];
+        k++;
+        j++;
+    }
+}
+
+void Merge_sort(int start, int end, int data[])
+{
+    if(start< end)
+    {
+        int mid = (start + end)/2;
+        Merge_sort(start, mid, data);
+        Merge_sort(mid+1, end, data);
+        merge(start, mid, end,data);
     }
 }
 
